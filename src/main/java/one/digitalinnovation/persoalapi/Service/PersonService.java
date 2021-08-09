@@ -32,10 +32,7 @@ public class PersonService {
     public MessageResponseDTO createPerson(@RequestBody PersonDTO personDTO) {
         Person personToSave = personMapper.toModel(personDTO);
         Person savedPerson = personRepository.save(personToSave);
-        return MessageResponseDTO
-                .builder()
-                .message("Created person with ID" + savedPerson.getId())
-                .build();
+        return createMessageResponse(savedPerson.getId(), "Create person with ID ");
     }
 
 
@@ -65,6 +62,17 @@ public class PersonService {
     }
 
 
+    public MessageResponseDTO updateById(Long id, PersonDTO personDTO) throws PersonNotfFounfException {
+        verifyIfExist(id);
+        Person personToUpdate = personMapper.toModel(personDTO);
+        Person savedPerson = personRepository.save(personToUpdate);
+        return createMessageResponse(savedPerson.getId(), "Updated Person with ID ");
+    }
 
-
+    private MessageResponseDTO createMessageResponse(Long id, String s) {
+        return MessageResponseDTO
+                .builder()
+                .message(s + id)
+                .build();
+    }
 }
