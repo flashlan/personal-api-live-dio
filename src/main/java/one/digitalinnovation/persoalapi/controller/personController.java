@@ -43,6 +43,13 @@ public class personController {
         return personService.findById(id);
     }
 
+    @PutMapping("/{id}")
+    public MessageResponseDTO updateById(@PathVariable Long id, @RequestBody @Valid PersonDTO personDTO) throws PersonNotfFounfException {
+        return personService.updateById(id, personDTO);
+    }
+
+
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteByID(@PathVariable Long id) throws PersonNotfFounfException {
