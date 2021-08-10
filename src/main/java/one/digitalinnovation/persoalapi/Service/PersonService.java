@@ -1,5 +1,6 @@
 package one.digitalinnovation.persoalapi.Service;
 
+import lombok.AllArgsConstructor;
 import one.digitalinnovation.persoalapi.Exception.PersonNotfFounfException;
 import one.digitalinnovation.persoalapi.Repository.PersonRepository;
 import one.digitalinnovation.persoalapi.dto.request.PersonDTO;
@@ -17,24 +18,18 @@ import java.util.stream.Collectors;
 //Package Service  geralmente gerencia regras de negócio da aplicação
 
 @Service
+@AllArgsConstructor(onConstructor =  @__(@Autowired))
 public class PersonService {
 
     private PersonRepository personRepository;
 
-
     private final PersonMapper personMapper = PersonMapper.INSTANCE;
-
-    @Autowired
-    public PersonService(PersonRepository personRepository) {
-        this.personRepository = personRepository;
-    }
 
     public MessageResponseDTO createPerson(@RequestBody PersonDTO personDTO) {
         Person personToSave = personMapper.toModel(personDTO);
         Person savedPerson = personRepository.save(personToSave);
         return createMessageResponse(savedPerson.getId(), "Create person with ID ");
     }
-
 
     public List<PersonDTO> listAll() {
         List<Person> allPeople = personRepository.findAll();
@@ -60,7 +55,6 @@ public class PersonService {
         return personRepository.findById(id)
                 .orElseThrow(() -> new PersonNotfFounfException(id));
     }
-
 
     public MessageResponseDTO updateById(Long id, PersonDTO personDTO) throws PersonNotfFounfException {
         verifyIfExist(id);
