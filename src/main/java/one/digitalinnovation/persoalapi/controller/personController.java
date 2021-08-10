@@ -1,10 +1,10 @@
 package one.digitalinnovation.persoalapi.controller;
 
+import lombok.AllArgsConstructor;
 import one.digitalinnovation.persoalapi.Exception.PersonNotfFounfException;
 import one.digitalinnovation.persoalapi.Service.PersonService;
 import one.digitalinnovation.persoalapi.dto.request.PersonDTO;
 import one.digitalinnovation.persoalapi.dto.response.MessageResponseDTO;
-import one.digitalinnovation.persoalapi.entity.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +16,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/people")
+// remover construtor padrao
+@AllArgsConstructor(onConstructor =  @__(@Autowired))
 public class personController {
 
     private PersonService personService;
-
-    @Autowired
-    public personController(PersonService personService) {
-        this.personService = personService;
-    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -47,6 +44,8 @@ public class personController {
     public MessageResponseDTO updateById(@PathVariable Long id, @RequestBody @Valid PersonDTO personDTO) throws PersonNotfFounfException {
         return personService.updateById(id, personDTO);
     }
+
+
 
 
 
